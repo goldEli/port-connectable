@@ -1,4 +1,4 @@
-import Vector2D from "../../lib/Vector2D";
+import * as vector from "../../lib/vector";
 
 type Position = [number, number];
 class Line {
@@ -14,7 +14,7 @@ class Line {
     this.container = container;
     this.startPos = startPos;
     this.endPos = endPos;
-    this.bias = [bias[0], bias[1]]
+    this.bias = bias
    
     this.init();
   }
@@ -38,20 +38,22 @@ class Line {
 
   update(endPos: Position) {
     this.endPos = endPos;
-    const v = new Vector2D([0, 0])
-    v.x = this.startPos[0];
-    v.y = this.startPos[1];
-    v.sub({ x: this.endPos[0], y: this.endPos[1] });
-    this.width = Math.abs(v.x);
-    this.height = Math.abs(v.y);
-    this.lineDom.setAttributeNS(
+    let v = vector.sub([0, 0], this.startPos, this.endPos)
+    v = vector.negate(v, v)
+    
+    this.width = Math.abs(v[0]);
+    this.height = Math.abs(v[1]);
+    this.lineDom?.setAttributeNS(
       null, 
       "transform", 
       `translate(${this.bias})`
     );
-    this.lineDom.setAttributeNS(null, "width", this.width.toString());
-    this.lineDom.setAttributeNS(null, "height", this.height.toString());
-    this.lineDom.children[0].setAttributeNS(
+    this.lineDom?.setAttributeNS(null, "width", this.width.toString());
+    this.lineDom?.setAttributeNS(null, "height", this.height.toString());
+    
+    // this.lineDom?.style.transform= `translate(25, 25)`
+
+    this.lineDom?.children[0].setAttributeNS(
       null,
       "d",
       `M 0 0 L ${this.width} ${this.height}`

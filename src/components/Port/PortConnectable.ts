@@ -21,9 +21,10 @@ class PortConnectable {
   }
   handleMousedown(event: MouseEvent) {
     this.createEndPort(event.pageX, event.pageY);
+    console.log(this.startDom.offsetTop)
     this.line = new Line(
       this.startDom, 
-      [event.pageX, event.pageY], 
+      [this.startDom.offsetLeft + this.width/2,this.startDom.offsetTop + this.height/2], 
       [event.pageX, event.pageY],
       [this.width/2, this.height/2]
     )
@@ -45,8 +46,8 @@ class PortConnectable {
       this.handleMousemove, 
     
     );
-    this.endDom.remove();
-    this.line?.remove();
+    // this.endDom.remove();
+    // this.line?.remove();
   }
   update = (x:number, y:number) => {
     this.endDom.style.left = x - this.width/2 + "px"
