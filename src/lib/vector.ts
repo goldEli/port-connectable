@@ -183,8 +183,10 @@ export function limit(out: Vector, min: number, max: number) {
   return out;
 }
 
-// export function abs(out: Vector, a: Vector) {
-//   out[0] = Math.abs(a[0]);
-//   out[1] = Math.abs(a[1]);
-//   return out;
-// }
+export function getSign(v: Vector): Vector {
+  return [Math.sign(v[0]), Math.sign(v[1])];
+}
+
+export function abs(a: Vector): Vector {
+  return [Math.abs(a[0]), Math.abs(a[1])];
+}

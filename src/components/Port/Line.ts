@@ -1,4 +1,5 @@
 import * as vector from "../../lib/vector";
+import { version } from "react";
 
 type Position = [number, number];
 class Line {
@@ -6,9 +7,9 @@ class Line {
   endPos: Position = [0, 0];
   container: HTMLElement;
   lineDom: SVGSVGElement | null = null;
-  width = 0;
-  height = 0;
-  bias = [0, 0]
+  size = [0, 0] as vector.Vector
+  bias = [0, 0] as vector.Vector
+  dirction = [1, 1] as vector.Vector
 
   constructor(container: HTMLElement, startPos: Position, endPos: Position, bias: Position) {
     this.container = container;
@@ -38,25 +39,46 @@ class Line {
 
   update(endPos: Position) {
     this.endPos = endPos;
-    let v = vector.sub([0, 0], this.startPos, this.endPos)
-    v = vector.negate(v, v)
+    let v = vector.sub([0, 0], this.endPos, this.startPos)
+    this.dirction = vector.getSign(v)
     
-    this.width = Math.abs(v[0]);
-    this.height = Math.abs(v[1]);
+
+    const offset = vector.create(
+      v[0] > 0 ? 0 : -1*v[0],
+      v[1] > 0 ? 0 : -1*v[1]
+    )
+
+    console.log(this.dirction)
+    console.log(vector.add([0,0], [0, 0], offset))
+
+    const transformValue = `
+    scale(${vector.getSign(v)}),
+    translate(${
+      vector.add(
+        [0,0], 
+        vector.mul([0,0], this.dirction, this.bias), 
+        offset
+      )
+    })
+    
+    `
+    
+    
+    this.size = vector.abs(v)
     this.lineDom?.setAttributeNS(
       null, 
       "transform", 
-      `translate(${this.bias})`
+      transformValue
     );
-    this.lineDom?.setAttributeNS(null, "width", this.width.toString());
-    this.lineDom?.setAttributeNS(null, "height", this.height.toString());
+    this.lineDom?.setAttributeNS(null, "width", this.size[0].toString());
+    this.lineDom?.setAttributeNS(null, "height", this.size[1].toString());
     
     // this.lineDom?.style.transform= `translate(25, 25)`
 
     this.lineDom?.children[0].setAttributeNS(
       null,
       "d",
-      `M 0 0 L ${this.width} ${this.height}`
+      `M 0 0 L ${this.size[0]} ${this.size[1]}`
     );
     // console.log(v);
   }
