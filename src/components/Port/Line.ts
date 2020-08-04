@@ -1,21 +1,21 @@
-import * as vector from "../../lib/vector";
-import { version } from "react";
+// import * as vector from "../../lib/vector";
+import Vector2D from "../../lib/Vector2D"
 
 type Position = [number, number];
 class Line {
-  startPos: Position = [0, 0];
-  endPos: Position = [0, 0];
+  startPos= new Vector2D([0, 0]);
+  endPos= new Vector2D([0, 0]);
   container: HTMLElement;
   lineDom: SVGSVGElement | null = null;
-  size = [0, 0] as vector.Vector
-  bias = [0, 0] as vector.Vector
-  dirction = [1, 1] as vector.Vector
+  size = new Vector2D([0, 0])
+  bias = new Vector2D([0, 0])
+  dirction = new Vector2D([1, 1])
 
   constructor(container: HTMLElement, startPos: Position, endPos: Position, bias: Position) {
     this.container = container;
-    this.startPos = startPos;
-    this.endPos = endPos;
-    this.bias = bias
+    this.startPos = new Vector2D(startPos);
+    this.endPos = new Vector2D(endPos);
+    this.bias = new Vector2D(bias)
    
     this.init();
   }
@@ -38,33 +38,26 @@ class Line {
   }
 
   update(endPos: Position) {
-    this.endPos = endPos;
-    let v = vector.sub([0, 0], this.endPos, this.startPos)
-    this.dirction = vector.getSign(v)
-    
 
-    const offset = vector.create(
+    this.endPos = new Vector2D(endPos);
+
+    const v = this.endPos.copy().sub(this.startPos)
+    this.dirction = v.copy().sign()
+
+    const offset = new Vector2D([
       v[0] > 0 ? 0 : -1*v[0],
       v[1] > 0 ? 0 : -1*v[1]
-    )
-
-    console.log(this.dirction)
-    console.log(vector.add([0,0], [0, 0], offset))
+    ])
 
     const transformValue = `
-    scale(${vector.getSign(v)}),
+    scale(${this.dirction}),
     translate(${
-      vector.add(
-        [0,0], 
-        vector.mul([0,0], this.dirction, this.bias), 
-        offset
-      )
+      this.bias.copy().mul(this.dirction).add(offset)
     })
-    
     `
     
     
-    this.size = vector.abs(v)
+    this.size = v.copy().abs()
     this.lineDom?.setAttributeNS(
       null, 
       "transform", 

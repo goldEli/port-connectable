@@ -1,12 +1,14 @@
 import Line from "./Line"
 
 class PortConnectable {
+
   container: HTMLElement= document.getElementById("js_container") as HTMLElement
   startDom: HTMLDivElement;
   endDom: HTMLDivElement;
   line: Line | null = null;
   width: number;
   height: number;
+
   constructor(startDom: HTMLDivElement, width: number = 50, height: number= 50) {
     this.startDom = startDom;
     this.width =width
@@ -46,8 +48,8 @@ class PortConnectable {
       this.handleMousemove, 
     
     );
-    // this.endDom.remove();
-    // this.line?.remove();
+    this.endDom.remove();
+    this.line?.remove();
   }
   update = (x:number, y:number) => {
     this.endDom.style.left = x - this.width/2 + "px"

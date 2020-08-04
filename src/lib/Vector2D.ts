@@ -1,7 +1,3 @@
-interface Position {
-  x: number;
-  y: number;
-}
 export default class Vector2D extends Array {
   constructor([x = 1, y = 0]) {
     super(...[x, y]);
@@ -35,13 +31,31 @@ export default class Vector2D extends Array {
     return new Vector2D([this.x, this.y]);
   }
 
-  add(v: Position) {
+  sign() {
+    this.x = Math.sign(this.x);
+    this.y = Math.sign(this.y);
+    return this;
+  }
+
+  mul(v: Vector2D) {
+    this.x *= v.x;
+    this.y *= v.y;
+    return this;
+  }
+
+  div(v: Vector2D) {
+    this.x = this.x / v.x;
+    this.y = this.y / v.y;
+    return this;
+  }
+
+  add(v: Vector2D) {
     this.x += v.x;
     this.y += v.y;
     return this;
   }
 
-  sub(v: Position) {
+  sub(v: Vector2D) {
     this.x -= v.x;
     this.y -= v.y;
     return this;
@@ -53,11 +67,11 @@ export default class Vector2D extends Array {
     return this;
   }
 
-  cross(v: Position) {
+  cross(v: Vector2D) {
     return this.x * v.y - v.x * this.y;
   }
 
-  dot(v: Position) {
+  dot(v: Vector2D) {
     return this.x * v.x + v.y * this.y;
   }
 
@@ -73,6 +87,11 @@ export default class Vector2D extends Array {
     this.x = x * c + y * -s;
     this.y = x * s + y * c;
 
+    return this;
+  }
+  abs() {
+    this.x = Math.abs(this.x);
+    this.y = Math.abs(this.y);
     return this;
   }
 }
