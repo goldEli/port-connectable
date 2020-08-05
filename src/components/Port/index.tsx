@@ -19,8 +19,8 @@ const Port: React.FC<PortProps> = props => {
 };
 
 const Circle = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 16px;
+  height: 16px;
   background-color: red;
   border-radius: 50%;
   position: absolute;

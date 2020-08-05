@@ -9,7 +9,7 @@ class PortConnectable {
   width: number;
   height: number;
 
-  constructor(startDom: HTMLDivElement, width: number = 50, height: number= 50) {
+  constructor(startDom: HTMLDivElement, width: number = 16, height: number= 16) {
     this.startDom = startDom;
     this.width =width
     this.height = height

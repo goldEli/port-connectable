@@ -65,13 +65,12 @@ class Line {
     );
     this.lineDom?.setAttributeNS(null, "width", this.size[0].toString());
     this.lineDom?.setAttributeNS(null, "height", this.size[1].toString());
-    
-    // this.lineDom?.style.transform= `translate(25, 25)`
 
     this.lineDom?.children[0].setAttributeNS(
       null,
       "d",
-      `M 0 0 L ${this.size[0]} ${this.size[1]}`
+      // `M 0 0 L ${this.size[0]} ${this.size[1]}`
+      `M 0 0 Q 0 ${this.size[1]/3},  ${this.size[0]/2} ${this.size[1]/2}, T  ${this.size[0]} ${this.size[1]}`
     );
     // console.log(v);
   }
