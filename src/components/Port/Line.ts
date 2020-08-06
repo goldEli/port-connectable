@@ -72,13 +72,9 @@ class Line {
 
   update(endPos: Position) {
 
-    const v = this.createEndPointeVector(endPos)
+    const [width, height] = this.createSize(endPos)
 
-    // 线所占的大小 [width, height]
-    const size = v.copy().abs()
-    const [width, height] = size
-
-    const offset = this.createOffset(v)
+    const offset = this.createOffset(endPos)
     
     this.lineDom?.setAttributeNS(
       null, 
@@ -98,11 +94,19 @@ class Line {
 
   }
 
+  createSize(endPos: Position) {
+    const v = this.createEndPointeVector(endPos)
+    const size = v.copy().abs()
+    const [width, height] = size
+    return [width, height]
+  }
+
   createEndPointeVector(endPos: Position) {
     return new Vector2D(endPos).sub(this.startPos)
   }
 
-  createOffset(v: Vector2D) {
+  createOffset(endPos: Position) {
+    const v = this.createEndPointeVector(endPos)
     /**
      * 线的方向
      * 右下为 [1, 1]
