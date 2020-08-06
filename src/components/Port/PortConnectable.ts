@@ -28,7 +28,6 @@ class PortConnectable {
     this.line = new Line({
       container: this.startDom,
       startPos: [this.startDom.offsetLeft + this.width/2,this.startDom.offsetTop + this.height/2],
-      endPos: [event.pageX, event.pageY],
       size: [this.width, this.height]
     })
     window.addEventListener(
