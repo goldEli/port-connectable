@@ -24,12 +24,13 @@ class PortConnectable {
   handleMousedown(event: MouseEvent) {
     this.createEndPort(event.pageX, event.pageY);
     // console.log(this.startDom.offsetTop)
-    this.line = new Line(
-      this.startDom, 
-      [this.startDom.offsetLeft + this.width/2,this.startDom.offsetTop + this.height/2], 
-      [event.pageX, event.pageY],
-      [this.width/2, this.height/2]
-    )
+ 
+    this.line = new Line({
+      container: this.startDom,
+      startPos: [this.startDom.offsetLeft + this.width/2,this.startDom.offsetTop + this.height/2],
+      endPos: [event.pageX, event.pageY],
+      size: [this.width, this.height]
+    })
     window.addEventListener(
       "mousemove", 
       this.handleMousemove, 
